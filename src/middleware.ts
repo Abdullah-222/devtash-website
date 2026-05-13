@@ -17,6 +17,10 @@ const LOCAL_IMAGE_PATHS = new Set([
  */
 const LOCAL_PATCHED_CHUNKS: Record<string, string> = {
   "1426.811b168004fc89cd.js": "/js/1426.811b168004fc89cd.js",
+  "%5B%5B...slug%5D%5D-ee5e09c6c23ee121.js":
+    "/js/%5B%5B...slug%5D%5D-ee5e09c6c23ee121.js?v=hubfix1",
+  "[[...slug]]-ee5e09c6c23ee121.js":
+    "/js/%5B%5B...slug%5D%5D-ee5e09c6c23ee121.js?v=hubfix1",
 };
 
 const LOCAL_PATCHED_APP_PATH = "/js/_app-b60cb08a8e4d3a7d.js";

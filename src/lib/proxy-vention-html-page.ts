@@ -27,6 +27,9 @@ const LOCAL_PATCHED_MAIN = "/js/main-b88b2c128c536bfa.js?v=headfix6";
 /** Patched `_app` (domain kill-switch removed). Query busts stale browser cache. */
 const LOCAL_PATCHED_APP = "/js/_app-b60cb08a8e4d3a7d.js?v=nokillswitch1";
 
+/** `[[...slug]]` chunk — safe when `page` is undefined (HubSpot `hubspotType` effect). */
+const LOCAL_PATCHED_SLUG = "/js/%5B%5B...slug%5D%5D-ee5e09c6c23ee121.js?v=hubfix1";
+
 /** Injected before `</body>` so Next head manager is not thrown off by extra `<head>` tags. */
 const BODY_INJECT = `
 <link rel="stylesheet" href="/css/vention-industries-accordion.css" />
@@ -97,6 +100,19 @@ function rewriteAppChunkToLocalPatched(html: string): string {
   );
 }
 
+/** Point `[[...slug]]` page chunk at patched bundle (hubspotType guard). */
+function rewriteSlugPageChunkToLocalPatched(html: string): string {
+  return html
+    .replace(
+      /src=(["'])((?:https:\/\/ventionteams\.com)?\/_next\/static\/chunks\/pages\/%5B%5B\.\.\.slug%5D%5D-ee5e09c6c23ee121\.js)\1/g,
+      `src=$1${LOCAL_PATCHED_SLUG}$1`,
+    )
+    .replace(
+      /src=(["'])((?:https:\/\/ventionteams\.com)?\/_next\/static\/chunks\/pages\/\[\[\.\.\.slug\]\]-ee5e09c6c23ee121\.js)\1/g,
+      `src=$1${LOCAL_PATCHED_SLUG}$1`,
+    );
+}
+
 /**
  * @param upstreamBasePath — path on ventionteams.com **without** leading slash
  *   (e.g. `software-development`, `services/web-development`).
@@ -134,6 +150,7 @@ export async function proxyVentionHtmlPage(
   html = ensureRootBaseHref(html);
   html = rewriteMainChunkToLocalPatched(html);
   html = rewriteAppChunkToLocalPatched(html);
+  html = rewriteSlugPageChunkToLocalPatched(html);
   html = rewriteNextImageUrlsToVentionOrigin(html);
 
   const bodyClose = html.lastIndexOf("</body>");
