@@ -24,6 +24,9 @@ function rewriteNextImageUrlsToVentionOrigin(html: string): string {
  */
 const LOCAL_PATCHED_MAIN = "/js/main-b88b2c128c536bfa.js?v=headfix6";
 
+/** Patched `_app` (domain kill-switch removed). Query busts stale browser cache. */
+const LOCAL_PATCHED_APP = "/js/_app-b60cb08a8e4d3a7d.js?v=nokillswitch1";
+
 /** Injected before `</body>` so Next head manager is not thrown off by extra `<head>` tags. */
 const BODY_INJECT = `
 <link rel="stylesheet" href="/css/vention-industries-accordion.css" />
@@ -86,6 +89,14 @@ function rewriteMainChunkToLocalPatched(html: string): string {
   );
 }
 
+/** Point `<script src=…/_app-….js>` at patched bundle (no “Something wrong” kill-switch). */
+function rewriteAppChunkToLocalPatched(html: string): string {
+  return html.replace(
+    /src=(["'])((?:https:\/\/ventionteams\.com)?\/_next\/static\/chunks\/pages\/_app-[a-zA-Z0-9_.-]+\.js)\1/g,
+    `src=$1${LOCAL_PATCHED_APP}$1`,
+  );
+}
+
 /**
  * @param upstreamBasePath — path on ventionteams.com **without** leading slash
  *   (e.g. `software-development`, `services/web-development`).
@@ -122,6 +133,7 @@ export async function proxyVentionHtmlPage(
   let html = await res.text();
   html = ensureRootBaseHref(html);
   html = rewriteMainChunkToLocalPatched(html);
+  html = rewriteAppChunkToLocalPatched(html);
   html = rewriteNextImageUrlsToVentionOrigin(html);
 
   const bodyClose = html.lastIndexOf("</body>");

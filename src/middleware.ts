@@ -12,14 +12,28 @@ const LOCAL_IMAGE_PATHS = new Set([
 ]);
 
 /**
- * Vention Next.js chunks that we serve from our local patched copies in `public/js/`
- * instead of proxying from ventionteams.com CDN.
- * Key: the chunk filename (without path). Value: local path under /js/.
+ * Vention Next.js chunks we serve from `public/js/` (patched). Exact filenames
+ * or patterns — upstream may ship a new `_app-*.js` hash; always map to our build.
  */
 const LOCAL_PATCHED_CHUNKS: Record<string, string> = {
   "1426.811b168004fc89cd.js": "/js/1426.811b168004fc89cd.js",
-  "_app-b60cb08a8e4d3a7d.js": "/js/_app-b60cb08a8e4d3a7d.js",
 };
+
+const LOCAL_PATCHED_APP_PATH = "/js/_app-b60cb08a8e4d3a7d.js";
+const LOCAL_PATCHED_APP_SEARCH = "?v=nokillswitch1";
+
+function localPatchedChunkDestination(pathname: string): string | null {
+  const chunkFilename = (pathname.split("/").pop() ?? "").split("?")[0];
+  if (
+    chunkFilename.startsWith("_app-") &&
+    chunkFilename.endsWith(".js") &&
+    pathname.includes("/chunks/pages/")
+  ) {
+    return `${LOCAL_PATCHED_APP_PATH}${LOCAL_PATCHED_APP_SEARCH}`;
+  }
+  const mapped = LOCAL_PATCHED_CHUNKS[chunkFilename];
+  return mapped ?? null;
+}
 
 /** Proxied Vention HTML loads `/_next/static/chunks/pages/*`; Turbopack must not treat those as app routes. */
 function shouldProxyVentionNextAsset(pathname: string) {
@@ -64,10 +78,12 @@ export function middleware(req: NextRequest) {
 
   if (shouldProxyVentionNextAsset(pathname)) {
     // Serve locally-patched chunks instead of forwarding to Vention CDN.
-    const chunkFilename = pathname.split("/").pop() ?? "";
-    if (LOCAL_PATCHED_CHUNKS[chunkFilename]) {
+    const dest = localPatchedChunkDestination(pathname);
+    if (dest) {
       const url = req.nextUrl.clone();
-      url.pathname = LOCAL_PATCHED_CHUNKS[chunkFilename];
+      const [pathPart, searchPart] = dest.split("?");
+      url.pathname = pathPart;
+      url.search = searchPart ? `?${searchPart}` : "";
       return NextResponse.rewrite(url);
     }
     return rewriteToVention(req);
