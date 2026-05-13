@@ -1,5 +1,7 @@
 import type { NextConfig } from "next";
 
+import { proxiedHtmlRewrites } from "./src/config/proxied-html-routes";
+
 const nextConfig: NextConfig = {
   // The goclone export includes local `css/` + `js/` bundles, but it does NOT include
   // the full `/_next/static/*` tree referenced throughout the HTML/CSS.
@@ -16,6 +18,7 @@ const nextConfig: NextConfig = {
         source: "/api/:path*",
         destination: "https://ventionteams.com/api/:path*",
       },
+      ...proxiedHtmlRewrites(),
     ];
   },
 };

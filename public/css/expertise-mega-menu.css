@@ -1,0 +1,78 @@
+/**
+ * Desktop Expertise mega menu — complements the exported Vention CSS where
+ * `.eeMGud` only defines the mobile drawer (no min-width:1080px rules).
+ */
+@media screen and (min-width: 1080px) {
+  .kycIdF > .fFpJPB > .pDEJK:first-of-type .gIHtZb {
+    position: relative;
+  }
+
+  /* Chevron: default down; open = up (reference). */
+  .kycIdF > .fFpJPB > .pDEJK:first-of-type .bloMjb {
+    transform: rotate(0deg) !important;
+  }
+
+  .kycIdF > .fFpJPB > .pDEJK:first-of-type .gIHtZb.vc-mega-open .bloMjb {
+    transform: rotate(180deg) !important;
+  }
+
+  /* Active tab: slightly darker bar + purple accent (reference). */
+  .kycIdF > .fFpJPB > .pDEJK:first-of-type .gIHtZb.vc-mega-open .dEcTYT {
+    background-color: #e4e4e7 !important;
+  }
+
+  .kycIdF > .fFpJPB > .pDEJK:first-of-type .gIHtZb.vc-mega-open .cxCuVv {
+    border-bottom-color: #5e17eb !important;
+  }
+
+  /* Mega panel: full width under first header row (not mobile fullscreen). */
+  .kycIdF > .fFpJPB > .pDEJK:first-of-type .gIHtZb > .eeMGud {
+    position: fixed !important;
+    top: var(--CALC_FIRST_HEADER_HEIGHT) !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: auto !important;
+    width: 100% !important;
+    height: auto !important;
+    max-height: min(90vh, calc(100vh - var(--CALC_FIRST_HEADER_HEIGHT))) !important;
+    margin: 0 !important;
+    z-index: 2147483000 !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    transform: translate3d(0, -100%, 0) !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    transition:
+      transform 0.35s cubic-bezier(0.215, 0.61, 0.355, 1),
+      opacity 0.25s ease,
+      visibility 0s linear 0.35s !important;
+  }
+
+  .kycIdF > .fFpJPB > .pDEJK:first-of-type .gIHtZb.vc-mega-open > .eeMGud {
+    transform: translate3d(0, 0, 0) !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    transition:
+      transform 0.35s cubic-bezier(0.215, 0.61, 0.355, 1),
+      opacity 0.25s ease,
+      visibility 0s linear 0s !important;
+  }
+
+  .kycIdF > .fFpJPB > .pDEJK:first-of-type .gIHtZb > .eeMGud .eCgmGa {
+    background-color: #e6e6e6 !important;
+    border-left: none !important;
+    border-right: none !important;
+    border-bottom: none !important;
+    border-top: 1px solid var(--my-colors-border, #d2d2d5) !important;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.06);
+  }
+}
+
+@media screen and (min-width: 1080px) and (prefers-reduced-motion: reduce) {
+  .kycIdF > .fFpJPB > .pDEJK:first-of-type .gIHtZb > .eeMGud,
+  .kycIdF > .fFpJPB > .pDEJK:first-of-type .gIHtZb.vc-mega-open > .eeMGud {
+    transition-duration: 0.01ms !important;
+  }
+}

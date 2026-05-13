@@ -1,0 +1,89 @@
+/**
+ * "Industries we serve" accordion on /software-development — hover expands one row
+ * (purple + copy) and collapses the others. Scoped to the section that contains `.cmoBcH`.
+ * Only when primary input supports hover (avoids breaking touch accordions).
+ */
+@media (hover: hover) and (pointer: fine) {
+  section.jiwsga:has(.cmoBcH) .cmoBcH > .cssckZ .cxONie,
+  section.jiwsga:has(.cmoBcH) .cmoBcH > .cssckZ .kxxcLu {
+    max-height: 0 !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    transition:
+      max-height 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+      opacity 0.22s ease,
+      padding 0.22s ease !important;
+    transition-delay: 0s, 0s, 0s !important;
+  }
+
+  section.jiwsga:has(.cmoBcH) .cmoBcH > .cssckZ .accordion-item-header:before {
+    transform: scale3d(1, 0, 1) !important;
+    transition: transform 0.4s cubic-bezier(0.215, 0.61, 0.355, 1) !important;
+  }
+
+  section.jiwsga:has(.cmoBcH) .cmoBcH > .cssckZ:hover .cxONie,
+  section.jiwsga:has(.cmoBcH) .cmoBcH > .cssckZ:hover .kxxcLu {
+    max-height: 2400px !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    transition:
+      max-height 0.48s cubic-bezier(0.4, 0, 0.2, 1),
+      opacity 0.28s ease 0.08s !important;
+  }
+
+  section.jiwsga:has(.cmoBcH) .cmoBcH > .cssckZ:hover .accordion-item-header:before {
+    transform: scale3d(1, 1, 1) !important;
+  }
+
+  /* Expanded row: white titles on purple bar */
+  section.jiwsga:has(.cmoBcH) .cmoBcH > .cssckZ:hover .accordion-item-header h3 {
+    color: #fff !important;
+    text-decoration-color: #fff !important;
+  }
+
+  section.jiwsga:has(.cmoBcH) .cmoBcH > .cssckZ:hover .accordion-item-header .kqRNnJ span {
+    color: #fff !important;
+  }
+
+  /* Collapsed strip: black labels on orange */
+  section.jiwsga:has(.cmoBcH) .cmoBcH > .cssckZ:not(:hover) .accordion-item-header h3 {
+    color: #000 !important;
+    text-decoration-color: #000 !important;
+  }
+
+  section.jiwsga:has(.cmoBcH) .cmoBcH > .cssckZ:not(:hover) .accordion-item-header .kqRNnJ span {
+    color: #000 !important;
+  }
+
+  /* Arrow circles: invert on expanded row */
+  section.jiwsga:has(.cmoBcH) .cmoBcH > .cssckZ:hover .hZejuT svg path,
+  section.jiwsga:has(.cmoBcH) .cmoBcH > .cssckZ:hover .lTYNl svg path {
+    fill: #000 !important;
+  }
+
+  section.jiwsga:has(.cmoBcH) .cmoBcH > .cssckZ:not(:hover) .hZejuT svg path,
+  section.jiwsga:has(.cmoBcH) .cmoBcH > .cssckZ:not(:hover) .lTYNl svg path {
+    fill: #fff !important;
+  }
+
+  section.jiwsga:has(.cmoBcH) .cmoBcH > .cssckZ:not(:hover) .hZejuT .eFoVAG,
+  section.jiwsga:has(.cmoBcH) .cmoBcH > .cssckZ:not(:hover) .lTYNl .lixMfD {
+    background-color: #000 !important;
+  }
+
+  section.jiwsga:has(.cmoBcH) .cmoBcH > .cssckZ:hover .hZejuT .eFoVAG,
+  section.jiwsga:has(.cmoBcH) .cmoBcH > .cssckZ:hover .lTYNl .lixMfD {
+    background-color: var(--my-colors-primary, #ff6a47) !important;
+  }
+
+  section.jiwsga:has(.cmoBcH) .cmoBcH > .cssckZ:hover .cxONie p,
+  section.jiwsga:has(.cmoBcH) .cmoBcH > .cssckZ:hover .kxxcLu p,
+  section.jiwsga:has(.cmoBcH) .cmoBcH > .cssckZ:hover .cxONie span,
+  section.jiwsga:has(.cmoBcH) .cmoBcH > .cssckZ:hover .kxxcLu span {
+    color: #fff !important;
+  }
+}
